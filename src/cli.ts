@@ -1,7 +1,7 @@
 import { parseArgs } from "util";
-import { authWebsocket, createServerContext } from "./api";
-import { websocketResponseSchema } from "./api-schema";
-import z from "zod";
+import { authWebsocket, createServerContext } from "./api.ts";
+import { websocketResponseSchema } from "./api-schema.ts";
+import { z } from "zod";
 import * as readline from "readline";
 // import { prompt } from 'bun';
 

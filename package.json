@@ -1,19 +1,25 @@
 {
   "name": "ptcli",
-  "module": "index.ts",
+  "module": "src/cli.ts",
   "type": "module",
   "private": true,
-  "bin": {
-    "ptcli": "bun run src/cli.ts"
+  "scripts": {
+    "build": "bun run build.ts",
+    "prepack": "bun run build"
   },
+  "bin": {
+    "ptcli": "./arch-switch.mjs"
+  },
+  "files": [
+    "dist", 
+    "arch-switch.mjs"
+  ],
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "minimist": "^1.2.8",
+    "zod": "^4.1.12"
   },
   "peerDependencies": {
     "typescript": "^5"
-  },
-  "dependencies": {
-    "minimist": "^1.2.8",
-    "zod": "^4.1.12"
   }
 }
