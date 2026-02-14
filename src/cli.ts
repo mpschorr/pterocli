@@ -3,6 +3,9 @@ import { authWebsocket, createServerContext } from "./api.ts";
 import { websocketResponseSchema } from "./api-schema.ts";
 import { z } from "zod";
 import * as readline from "readline";
+// import dotenv from "dotenv";
+import "dotenv/config";
+
 // import { prompt } from 'bun';
 
 const { values, positionals } = parseArgs({
@@ -21,17 +24,21 @@ const { values, positionals } = parseArgs({
   allowPositionals: true,
 });
 
-const { key: API_KEY, url: API_URL, server: SERVER_ID } = values;
+let { key: API_KEY, url: API_URL, server: SERVER_ID } = values;
+API_KEY = API_KEY ?? process.env.PTCLI_API_KEY;
+API_URL = API_URL ?? process.env.PTCLI_API_URL;
+SERVER_ID = SERVER_ID ?? process.env.PTCLI_SERVER_ID;
+
 if (!API_KEY) {
-  console.log("--key not found");
+  console.log("pterodactyl api key not found, use the --key flag or specify a PTCLI_API_KEY environment variable");
   process.exit(1);
 }
 if (!API_URL) {
-  console.log("--url not found");
+  console.log("pterodactyl api url not found, use the --url flag or specify a PTCLI_API_URL environment variable");
   process.exit(1);
 }
 if (!SERVER_ID) {
-  console.log("--server not found");
+  console.log("pterodactyl server id not found, use the --server flag or specify a PTCLI_SERVER_ID environment variable");
   process.exit(1);
 }
 
@@ -84,6 +91,7 @@ socket.addEventListener("close", (e) => {
 });
 
 rl.on("line", (line) => {
+  console.log("found line", line);
   socket.send(
     JSON.stringify({
       event: "send command",
