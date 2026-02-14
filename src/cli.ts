@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { parseArgs } from "util";
 import { authWebsocket, createServerContext } from "./api";
 import { websocketResponseSchema } from "./api-schema";
