@@ -2,7 +2,8 @@ import { parseArgs } from "util";
 import { authWebsocket, createServerContext } from "./api";
 import { websocketResponseSchema } from "./api-schema";
 import z from "zod";
-import { color } from "bun";
+import * as readline from "readline";
+// import { prompt } from 'bun';
 
 const { values, positionals } = parseArgs({
   args: Bun.argv,
@@ -34,8 +35,6 @@ if (!SERVER_ID) {
   process.exit(1);
 }
 
-console.log("before context");
-
 const server = createServerContext({
   baseUrl: API_URL,
   serverId: SERVER_ID,
@@ -43,12 +42,18 @@ const server = createServerContext({
 });
 
 const { token, socket: socketUrl } = await authWebsocket(server);
-console.log("auth", server);
 const socket = new WebSocket(socketUrl, {
   headers: {
     authorization: `Bearer ${token}`,
     origin: API_URL,
   },
+});
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  prompt: "> ",
+  terminal: true,
 });
 
 socket.addEventListener("open", () => {
@@ -67,10 +72,22 @@ socket.addEventListener("message", (msg) => {
     socket.send(JSON.stringify({ event: "send logs", args: [null] }));
   }
   if (data.event == "console output") {
+    readline.cursorTo(process.stdout, 0);
+    readline.clearLine(process.stdout, 0);
     console.log(data.args[0]);
+    rl.prompt(true);
   }
 });
 
 socket.addEventListener("close", (e) => {
   console.log(e.reason);
+});
+
+rl.on("line", (line) => {
+  socket.send(
+    JSON.stringify({
+      event: "send command",
+      args: [line],
+    }),
+  );
 });

@@ -2,10 +2,10 @@ import z from "zod";
 import { websocketAuthResponseSchema } from "./api-schema";
 
 export async function authWebsocket(server: ServerContext) {
-  console.log("b", server);
+  // console.log("b", server);
   const response = await server.fetch("/websocket");
   const json = await response.json();
-  console.log("respon", json);
+  // console.log("respon", json);
   const data = z.parse(websocketAuthResponseSchema, json);
   return data.data;
 }
