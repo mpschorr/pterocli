@@ -1,6 +1,6 @@
 import { parseArgs } from "util";
-import { authWebsocket, createServerContext } from "./api.ts";
-import { websocketResponseSchema } from "./api-schema.ts";
+import { authWebsocket, createServerContext } from "./api";
+import { websocketResponseSchema } from "./api-schema";
 import { z } from "zod";
 import * as readline from "readline";
 // import dotenv from "dotenv";
@@ -9,7 +9,7 @@ import "dotenv/config";
 // import { prompt } from 'bun';
 
 const { values, positionals } = parseArgs({
-  args: Bun.argv,
+  args: process.argv,
   options: {
     key: {
       type: "string",

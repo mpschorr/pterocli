@@ -1,26 +1,28 @@
 {
   "name": "pterocli",
   "module": "src/cli.ts",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
-    "build": "bun run build.ts",
+    "build": "tsc",
     "prepack": "bun run build"
   },
   "bin": {
-    "pterocli": "arch-switch.mjs"
+    "pterocli": "./dist/cli.js"
   },
   "files": [
     "dist",
     "arch-switch.mjs"
   ],
   "devDependencies": {
-    "@types/bun": "latest",
     "dotenv": "^17.3.1",
     "minimist": "^1.2.8",
     "zod": "^4.1.12"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "@types/node": "^25.2.3"
   }
 }
