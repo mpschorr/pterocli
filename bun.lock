@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "ptcli",
+      "name": "pterocli",
       "devDependencies": {
         "@types/bun": "latest",
         "dotenv": "^17.3.1",

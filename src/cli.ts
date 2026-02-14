@@ -25,20 +25,20 @@ const { values, positionals } = parseArgs({
 });
 
 let { key: API_KEY, url: API_URL, server: SERVER_ID } = values;
-API_KEY = API_KEY ?? process.env.PTCLI_API_KEY;
-API_URL = API_URL ?? process.env.PTCLI_API_URL;
-SERVER_ID = SERVER_ID ?? process.env.PTCLI_SERVER_ID;
+API_KEY = API_KEY ?? process.env.PTEROCLI_API_KEY;
+API_URL = API_URL ?? process.env.PTEROCLI_API_URL;
+SERVER_ID = SERVER_ID ?? process.env.PTEROCLI_SERVER_ID;
 
 if (!API_KEY) {
-  console.log("pterodactyl api key not found, use the --key flag or specify a PTCLI_API_KEY environment variable");
+  console.log("pterodactyl api key not found, use the --key flag or specify a PTEROCLI_API_KEY environment variable");
   process.exit(1);
 }
 if (!API_URL) {
-  console.log("pterodactyl api url not found, use the --url flag or specify a PTCLI_API_URL environment variable");
+  console.log("pterodactyl api url not found, use the --url flag or specify a PTEROCLI_API_URL environment variable");
   process.exit(1);
 }
 if (!SERVER_ID) {
-  console.log("pterodactyl server id not found, use the --server flag or specify a PTCLI_SERVER_ID environment variable");
+  console.log("pterodactyl server id not found, use the --server flag or specify a PTEROCLI_SERVER_ID environment variable");
   process.exit(1);
 }
 

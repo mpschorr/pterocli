@@ -1,14 +1,14 @@
 {
-  "name": "ptcli",
+  "name": "pterocli",
   "module": "src/cli.ts",
+  "version": "1.0.0",
   "type": "module",
-  "private": true,
   "scripts": {
     "build": "bun run build.ts",
     "prepack": "bun run build"
   },
   "bin": {
-    "ptcli": "./arch-switch.mjs"
+    "pterocli": "arch-switch.mjs"
   },
   "files": [
     "dist",

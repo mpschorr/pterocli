@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { spawn } from 'child_process';
 import { arch as osArch, platform as osPlatform } from 'os';
 
@@ -18,7 +20,7 @@ function ExitError(str) {
   console.log(`\n\n`);
   process.exit(1);
 }
-
+ 
 if (!KnownArchitectures.includes(arch)) {
   ExitError(`Unsupported architecture '${arch}'`);
 }
@@ -33,7 +35,7 @@ if (InvalidCombinations.includes(executableName)) {
 }
 
 spawn(
-  `./dist/bun-${executableName}-modern-ptcli${platform === 'windows' ? '.exe' : ''}`,
+  `./dist/bun-${executableName}-modern-pterocli${platform === 'windows' ? '.exe' : ''}`,
   process.argv.slice(2),
   {
     cwd: process.cwd(),

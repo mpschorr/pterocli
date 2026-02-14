@@ -1,4 +1,4 @@
-# ptcli
+# pterocli
 
 simple user-focused cli for interacting with pterodactyl servers
 

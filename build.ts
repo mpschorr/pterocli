@@ -12,7 +12,7 @@ outer: for (const arch of KnownArchitectures) {
       "bun",
       "build",
       "./src/cli.ts",
-      `--outfile=dist/${target}-ptcli`,
+      `--outfile=dist/${target}-pterocli`,
       "--compile",
       "--minify",
       //   "--bytecode",
