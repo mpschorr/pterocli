@@ -7,6 +7,9 @@ import { websocketResponseSchema } from "./api-schema";
 import { z } from "zod";
 // import dotenv from "dotenv";
 import "dotenv/config";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 
 const { values, positionals } = parseArgs({
   args: process.argv,
@@ -62,14 +65,20 @@ socket.addEventListener("open", () => {
 
 // readline stuffs
 
+const historyFile = join(tmpdir(), 'ptcli_history');
+if (!existsSync(historyFile)) {
+  writeFileSync(historyFile, '');
+}
+const history = readFileSync(historyFile, 'utf-8').split('\n').filter(Boolean);
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
   prompt: "> ",
   terminal: true,
+  history: history,
+  historySize: 100,
 });
-
-// readline stuffs
 
 function log(...args: any[]) {
   readline.clearLine(process.stdout, 0);
@@ -107,6 +116,8 @@ socket.addEventListener("close", (e) => {
   error(e.reason);
 });
 
+// stdin
+
 rl.on("line", (line) => {
   socket.send(
     JSON.stringify({
@@ -115,3 +126,7 @@ rl.on("line", (line) => {
     }),
   );
 });
+
+rl.addListener('history', (history) => {
+  writeFileSync(historyFile, history.join('\n'));
+})
