@@ -56,6 +56,12 @@ const socket = new WebSocket(socketUrl, {
   },
 });
 
+socket.addEventListener("open", () => {
+  socket.send(JSON.stringify({ event: "auth", args: [token] }));
+});
+
+// readline stuffs
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -63,15 +69,29 @@ const rl = readline.createInterface({
   terminal: true,
 });
 
-socket.addEventListener("open", () => {
-  socket.send(JSON.stringify({ event: "auth", args: [token] }));
-});
+// readline stuffs
+
+function log(...args: any[]) {
+  readline.clearLine(process.stdout, 0);
+  readline.cursorTo(process.stdout, 0);
+  console.log(...args);
+  rl.prompt();
+}
+
+function error(...args: any[]) {
+  readline.clearLine(process.stdout, 0);
+  readline.cursorTo(process.stdout, 0);
+  console.error(...args);
+  rl.prompt();
+}
+
+// stdout
 
 socket.addEventListener("message", (msg) => {
   const json = JSON.parse(msg.data);
   const parseResult = z.safeParse(websocketResponseSchema, json);
   if (!parseResult.success) {
-    console.error(`Error parsing socket event: ${parseResult.error.message}`);
+    error(`Error parsing socket event: ${parseResult.error.message}`);
     return;
   }
   const data = parseResult.data;
@@ -79,15 +99,12 @@ socket.addEventListener("message", (msg) => {
     socket.send(JSON.stringify({ event: "send logs", args: [null] }));
   }
   if (data.event == "console output") {
-    readline.cursorTo(process.stdout, 0);
-    readline.clearLine(process.stdout, 0);
-    console.log(data.args[0]);
-    rl.prompt(true);
+    log(data.args[0]);
   }
 });
 
 socket.addEventListener("close", (e) => {
-  console.log(e.reason);
+  error(e.reason);
 });
 
 rl.on("line", (line) => {
