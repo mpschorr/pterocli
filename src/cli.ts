@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { parseArgs } from "node:util";
+import { WebSocket } from 'ws';
 import * as readline from "node:readline";
 import { authWebsocket, createServerContext } from "./api";
 import { websocketResponseSchema } from "./api-schema";
@@ -97,7 +98,7 @@ function error(...args: any[]) {
 // stdout
 
 socket.addEventListener("message", (msg) => {
-  const json = JSON.parse(msg.data);
+  const json = JSON.parse(msg.data.toString());
   const parseResult = z.safeParse(websocketResponseSchema, json);
   if (!parseResult.success) {
     error(`Error parsing socket event: ${parseResult.error.message}`);
