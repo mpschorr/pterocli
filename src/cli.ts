@@ -1,14 +1,12 @@
 #!/usr/bin/env node
 
-import { parseArgs } from "util";
+import { parseArgs } from "node:util";
+import * as readline from "node:readline";
 import { authWebsocket, createServerContext } from "./api";
 import { websocketResponseSchema } from "./api-schema";
 import { z } from "zod";
-import * as readline from "readline";
 // import dotenv from "dotenv";
 import "dotenv/config";
-
-// import { prompt } from 'bun';
 
 const { values, positionals } = parseArgs({
   args: process.argv,
@@ -93,7 +91,6 @@ socket.addEventListener("close", (e) => {
 });
 
 rl.on("line", (line) => {
-  console.log("found line", line);
   socket.send(
     JSON.stringify({
       event: "send command",
